@@ -29,7 +29,7 @@ class SimpleViewModel : ViewModel() {
 
     val likes = ObservableInt()
     val popularity = ObservableField<Popularity>(Popularity.NORMAL)
-
+    val progress = ObservableInt()
     /**
      * Increments the number of likes.
      */
@@ -38,9 +38,16 @@ class SimpleViewModel : ViewModel() {
 
         popularity.set(likes.get().let {
             when {
-                it > 9 -> Popularity.STAR
+                it > 14 -> Popularity.STAR
                 it > 4 -> Popularity.POPULAR
                 else -> Popularity.NORMAL
+            }
+        })
+        progress.set(likes.get().let {
+            when {
+                it <= 4 -> it * 20
+                it in 5..14 -> (it - 5) * 10
+                else -> it
             }
         })
     }
